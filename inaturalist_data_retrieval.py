@@ -7,7 +7,7 @@ base_url = "https://api.inaturalist.org/v1"
 endpoint = "/observations"
 
 end_date = datetime.now().date()
-start_date = end_date - timedelta(days=5*365)
+start_date = end_date - timedelta(days=3) # Decide how long to go back in time
 print('start date:', start_date)
 print('end date:', end_date)
 
@@ -30,7 +30,7 @@ def make_request(url, params, headers):
     print(f"API Response Status Code: {response.status_code}")
     if response.status_code == 200:
         data = response.json()
-        print(f"API Response Data: {data}")
+        print(f"API Responded Successfully.")
         return data
     else:
         print(f"Error: {response.status_code} - {response.text}")
@@ -39,18 +39,24 @@ def make_request(url, params, headers):
 def process_data(data):
     observations = []
     for obs in data:
+        photo_url = ""
+        if "photos" in obs and obs["photos"]:
+            photo_url = obs["photos"][0]['url'].replace('square', 'medium')
+        
         observation = {
             "id": obs["id"],
-            "species_guess": obs.get("species_guess", ""),
             "observed_on": obs.get("observed_on", ""),
-            "place_guess": obs.get("place_guess", ""),
             "latitude": obs.get("location", "").split(",")[0],
             "longitude": obs.get("location", "").split(",")[-1],
             "user_login": obs.get("user", {}).get("login", ""),
-            "created_at": obs.get("created_at", "")
+            "created_at": obs.get("created_at", ""),
+            "name": obs.get("taxon", {}).get("name", ""),
+            "preferred_common_name": obs.get("taxon", {}).get("preferred_common_name", "").title(),
+            "native": obs.get("taxon", {}).get("native", ""),
+            "photo_url": photo_url,
         }
         observations.append(observation)
-    
+
     df = pd.DataFrame(observations)
     return df
 
@@ -79,10 +85,15 @@ def main():
     print(f"Total observations retrieved: {len(all_data)}")
     
     df = process_data(all_data)
-    print("DataFrame:")
+    print("First 5 rows of DataFrame:")
     print(df.head())
 
-    df.to_csv("inaturalist_observations.csv", index=False)
+    # Write DataFrame to CSV file
+    try:
+        df.to_csv("inaturalist_observations.csv", index=False)
+        print("CSV file successfully created.")
+    except Exception as e:
+        print(f"Error occurred while writing CSV file: {e}")
 
 if __name__ == "__main__":
     main()
