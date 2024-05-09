@@ -8,4 +8,14 @@ created_at,Timestamp of when the observation was created,Date and Time
 name,Scientific name of the observed taxon,Text
 preferred_common_name,Preferred common name of the observed taxon (if given),Text
 native,Whether the observed taxon is native to the location,Boolean
-photo_url,URL of the photo associated with the observation,Text (URL)
+photo_url,URL of the first photo associated with the observation if available,Text (URL)s
+
+
+Attributes Table
+user_login
+
+
+Description? data? 
+Name 
+
+

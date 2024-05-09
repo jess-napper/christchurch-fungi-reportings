@@ -1,0 +1,9 @@
+{
+    "requestContext": {
+        "path": "/metadata"
+    },
+    
+    "queryStringParameters": {
+        "api_key": "Fish_Sea_Hat_Forest!"
+    }
+}
