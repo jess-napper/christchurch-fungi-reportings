@@ -1,11 +1,12 @@
 # iNaturalist API Integration Project
 
 ## Overview
-This project is an AWS Lambda function running at [https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2#/functions/data472-jkn35-fungi-observations] . 
+This project is an AWS Lambda function running at [https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2#/functions/data472-jkn35-fungi-observations].
+
 It integrates with the iNaturalist API to retrieve observation data for fungi species in the Christchurch, New Zealand region. The function provides two endpoints:
 
-/metadata: Returns a CSV file containing metadata about the available observation data, such as the columns and their descriptions.
-/data: Returns a CSV file containing the actual observation data for a specified date range.
+* /metadata: Returns a CSV file containing metadata about the available observation data, such as the columns and their descriptions.
+* /data: Returns a CSV file containing the actual observation data for a specified date range.
 
 ## Prerequisites
 - AWS Lambda function with Python 3.12 runtime
