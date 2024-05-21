@@ -1,0 +1,9 @@
+{
+    "requestContext": {
+        "path": "/data"
+    },
+    "queryStringParameters": {
+        "api_key": "Fish_Sea_Hat_Forest!",
+        "end_date": "2023-12-31"
+    }
+}

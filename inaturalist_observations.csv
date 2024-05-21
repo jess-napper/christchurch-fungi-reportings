@@ -1,0 +1,23 @@
+id,observed_on,latitude,longitude,user_login,created_at,name,preferred_common_name,native,photo_url
+212516539,2024-04-28,-43.559601,172.726739,jupal04,2024-05-01T18:53:13+12:00,Xanthoparmelia cumberlandia,Cumberland Rock Shield,False,https://inaturalist-open-data.s3.amazonaws.com/photos/375551914/medium.jpg
+212516481,2024-04-28,-43.5579412,172.7289270997,jupal04,2024-05-01T18:53:02+12:00,Xanthoria parietina,Common Sunburst Lichen,True,https://inaturalist-open-data.s3.amazonaws.com/photos/375551661/medium.jpg
+212512802,2024-04-28,-43.529719,172.619288,jupal04,2024-05-01T18:28:13+12:00,Flavoparmelia baltimorensis,Rock Greenshield Lichen,False,https://inaturalist-open-data.s3.amazonaws.com/photos/375542625/medium.jpg
+212498348,2024-05-01,-43.5249129722,172.578449,liamcassidy,2024-05-01T16:55:06+12:00,Amanita muscaria,Fly Agaric,False,https://inaturalist-open-data.s3.amazonaws.com/photos/375524707/medium.jpeg
+211436092,2024-04-29,-43.52797256,172.59649507,jennysaito,2024-04-29T20:48:47+12:00,Favolaschia claudopus,Orange Pore Fungus,False,https://inaturalist-open-data.s3.amazonaws.com/photos/373818934/medium.jpeg
+211435413,2024-04-29,-43.52699156,172.59674533,jennysaito,2024-04-29T20:46:36+12:00,Favolaschia claudopus,Orange Pore Fungus,False,https://inaturalist-open-data.s3.amazonaws.com/photos/373818034/medium.jpeg
+211435317,2024-04-29,-43.52693621,172.59681069,jennysaito,2024-04-29T20:46:15+12:00,Favolaschia claudopus,Orange Pore Fungus,False,https://inaturalist-open-data.s3.amazonaws.com/photos/373817865/medium.jpeg
+211376857,2024-04-29,-43.485029926,172.6989123051,chrismac,2024-04-29T17:27:53+12:00,Coprinus comatus,Shaggy Mane,False,https://inaturalist-open-data.s3.amazonaws.com/photos/373725180/medium.jpg
+211332023,2024-04-29,-43.5160598611,172.6542816111,fungifans,2024-04-29T15:30:00+12:00,Lacrymaria asperospora,,True,https://inaturalist-open-data.s3.amazonaws.com/photos/373651064/medium.jpeg
+211308945,2024-04-29,-43.5292633333,172.7346333333,jochalmers,2024-04-29T14:43:13+12:00,Chlorophyllum rhacodes,Shaggy Parasol,False,https://inaturalist-open-data.s3.amazonaws.com/photos/373614851/medium.jpg
+211307329,2024-04-29,-43.529095,172.7338866667,jochalmers,2024-04-29T14:40:20+12:00,Amanita muscaria,Fly Agaric,False,https://inaturalist-open-data.s3.amazonaws.com/photos/373612305/medium.jpg
+211165165,2024-04-29,-43.5222883333,172.584,frankashwood,2024-04-29T10:31:07+12:00,Amanita muscaria,Fly Agaric,False,https://inaturalist-open-data.s3.amazonaws.com/photos/373376589/medium.jpg
+211158301,2024-04-29,-43.5984219892,172.5796949118,slirv27,2024-04-29T10:20:03+12:00,Amanita muscaria,Fly Agaric,False,https://inaturalist-open-data.s3.amazonaws.com/photos/373863020/medium.jpeg
+210839114,2024-04-28,-43.8106994677,172.8853541716,nathimble,2024-04-29T02:26:27+12:00,Bolbitius titubans,Yellow Fieldcap,False,https://inaturalist-open-data.s3.amazonaws.com/photos/372748894/medium.jpg
+210839051,2024-04-28,-43.8108395138,172.8849709459,nathimble,2024-04-29T02:26:22+12:00,Amanita muscaria,Fly Agaric,False,https://inaturalist-open-data.s3.amazonaws.com/photos/372748082/medium.jpg
+210786341,2024-04-28,-43.4636116667,172.6095116667,boytouchgrass,2024-04-29T00:56:09+12:00,Ramalina leptocarpha,,False,https://inaturalist-open-data.s3.amazonaws.com/photos/372780104/medium.jpg
+210689192,2024-04-28,-43.5614444444,172.6371944444,eosthusiast,2024-04-28T20:28:56+12:00,Coprinellus micaceus,Mica Cap,False,https://inaturalist-open-data.s3.amazonaws.com/photos/372629350/medium.jpeg
+210636494,2024-04-28,-43.50722579,172.63593377,leviath,2024-04-28T17:04:44+12:00,Psilocybe subaeruginosa,,True,https://inaturalist-open-data.s3.amazonaws.com/photos/372543437/medium.jpeg
+210559705,2024-04-28,-43.5121473995,172.6863748959,diane-nz,2024-04-28T13:53:46+12:00,Amanita muscaria,Fly Agaric,False,https://inaturalist-open-data.s3.amazonaws.com/photos/372414909/medium.jpg
+210504154,2024-04-28,-43.5428694444,172.6232805556,resuelze,2024-04-28T11:48:21+12:00,Amanita muscaria,Fly Agaric,False,https://inaturalist-open-data.s3.amazonaws.com/photos/372320445/medium.jpg
+210489881,2024-04-28,-43.7037068886,172.8970566659,hugh_eaton,2024-04-28T11:15:13+12:00,Armillaria novae-zelandiae,Austral Honey Mushroom,True,https://inaturalist-open-data.s3.amazonaws.com/photos/372295816/medium.jpg
+210485535,2024-04-28,-43.7045707126,172.8988941718,hugh_eaton,2024-04-28T11:05:02+12:00,Armillaria novae-zelandiae,Austral Honey Mushroom,True,https://inaturalist-open-data.s3.amazonaws.com/photos/372287402/medium.jpg
