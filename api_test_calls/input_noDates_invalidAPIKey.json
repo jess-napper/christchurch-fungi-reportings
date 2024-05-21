@@ -1,0 +1,8 @@
+{
+    "requestContext": {
+        "path": "/data"
+    },
+    "queryStringParameters": {
+        "api_key": "not_your_api_key"
+    }
+}
