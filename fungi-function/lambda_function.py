@@ -37,7 +37,6 @@ def transform_version(version):
     # Transform version from v1.0.0 to 1-0-0
     return version[1:].replace('.', '-')
 
-
 def get_metadata_table(query_params):
     # Parse metadata_version from query parameters
     metadata_version = query_params.get('metadata_version', 'LATEST')
@@ -48,45 +47,43 @@ def get_metadata_table(query_params):
     # Retrieve metadata from S3 based on the specified version
     s3 = boto3.client('s3')
     bucket_name = 'data472-jkn35-metadata-fungi-observations'
-    prefix = 'metadata/metadata_v'  # Metadata is stored with names like "metadata_v1-0-0.csv"
-
+    prefix = 'metadata/metadata_v'  # Metadata is stored with names like "metadata_v1-0-0.json"
 
     if metadata_version == 'LATEST':
         # List objects in the metadata folder
         response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
         
         # Extract version numbers from object keys
-        versions = [re.findall(r'metadata_v(\d+-\d+-\d+)', obj['Key'])[0] for obj in response.get('Contents', [])]
+        versions = [re.findall(r'metadata_v(\d+-\d+-\d+)', obj['Key'])[0] for obj in response.get('Contents', []) if 'Key' in obj]
         
         # Find the latest version
         latest_version = max(versions)
         
-       # Construct key for the latest metadata file
-        key = f'{prefix}{latest_version}.csv'
+        # Construct key for the latest metadata file
+        key = f'{prefix}{latest_version}.json'
 
     else:
-        key = f'{prefix}{metadata_version}.csv'  # Assuming metadata is stored in CSV format
+        key = f'{prefix}{metadata_version}.json'
     
     try:
         response = s3.get_object(Bucket=bucket_name, Key=key)
-        metadata_df = pd.read_csv(response['Body'])
-
+        metadata_json = json.loads(response['Body'].read())
     except Exception as e:
         return {
             "statusCode": 500,
             "body": json.dumps({"error": str(e)})
         }
 
-    # Convert DataFrame to CSV string
-    csv_data = metadata_df.to_csv(index=False)
+    # Convert metadata JSON to string
+    metadata_str = json.dumps(metadata_json, indent=4)
     
     return {
         "statusCode": 200,
         "headers": {
-            "Content-Type": "text/csv",
-            "Content-Disposition": f"attachment; filename=metadata.csv"
+            "Content-Type": "application/json",
+            "Content-Disposition": f"attachment; filename=metadata.json"
         },
-        "body": csv_data
+        "body": metadata_str
     }
 
 

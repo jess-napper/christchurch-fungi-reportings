@@ -1,0 +1,66 @@
+    {
+        "metadata": {
+          "description": "This dataset contains fungi observations in Otautahi / Christchurch, New Zealand from iNaturalist. It includes details such as the date and location of the observation, the user who made the observation, and the taxon observed.",
+          "source_url": "https://www.inaturalist.org/observations?place_id=40469&subview=table&iconic_taxa=Fungi",
+          "version": "1.0.0",
+          "attributes": [
+            {
+              "name": "id",
+              "description": "Unique iNaturalist identifier for the observation",
+              "type": "Text"
+            },
+            {
+              "name": "user_login",
+              "description": "Username of the user who made the observation on iNaturalist",
+              "type": "Text"
+            },
+            {
+              "name": "name",
+              "description": "Scientific name of the observed taxon",
+              "type": "Text"
+            },
+            {
+              "name": "preferred_common_name",
+              "description": "Preferred common name of the observed taxon (if given)",
+              "type": "Text"
+            },
+            {
+              "name": "photo_url",
+              "description": "URL of the first photo associated with the observation if available",
+              "type": "Text (URL)"
+            }
+          ],
+          
+          "dimensions": [
+            {
+              "name": "observed_on",
+              "description": "Date of the observation",
+              "type": "Date"
+            },
+            {
+              "name": "created_at",
+              "description": "Timestamp of when the observation was created",
+              "type": "Date and Time"
+            },
+            {
+              "name": "latitude",
+              "description": "Latitude coordinate of the observation",
+              "type": "Float"
+            },
+            {
+              "name": "longitude",
+              "description": "Longitude coordinate of the observation",
+              "type": "Float"
+            }
+          ],
+          "code_lists": [
+            {
+              "name": "native",
+              "description": "Whether the observed taxon is native to the location",
+              "type": "Boolean",
+              "code_values": ["True", "False"]
+            }
+          ]
+        }
+      }
+      

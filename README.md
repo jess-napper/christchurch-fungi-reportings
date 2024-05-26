@@ -1,6 +1,13 @@
 # iNaturalist API Integration Project
 
+## Important Note on AWS Deployment
+
+Due to the University of Canterbury user restrictions on AWS, this Lambda application cannot run in a production environment and can only be tested within the Lambda test environment. 
+
+I also attempted to deploy this application using AWS App Runner. However, similar permission errors were encountered, meaning it could not be deployed there either.
+
 ## Overview
+
 This project is an AWS Lambda function running at [https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2#/functions/data472-jkn35-fungi-observations].
 
 It integrates with the iNaturalist API to retrieve observation data for fungi species in the Christchurch, New Zealand region. The function provides two endpoints:
@@ -109,15 +116,100 @@ This command will invoke the Lambda function with the provided payload and store
 4. The response data from the API is processed and converted into a Pandas DataFrame.
 5. The DataFrame is returned as a CSV file in the response.
 
+Certainly! Here is the updated README section with the new information about the metadata:
+
 ## Metadata
-The metadata CSV file contains information about the columns in the observation data CSV file. Each row in the metadata file represents a column, and the columns in the metadata file are:
+The metadata JSON file contains detailed information about the columns in the observation data CSV file. The metadata is divided into three main sections: attributes, dimensions, and code lists.
 
-- `column_name`: The name of the column in the observation data.
-- `description`: A brief description of the column's content.
-- `data_type`: The data type of the column (e.g., string, integer, float).
-- `example`: An example value for the column.
+- **Attributes**: Provide additional information about the observations, typically describing or identifying the observation in more detail.
+- **Dimensions**: Categories used for analysis, providing context or structure for the data.
+- **Code Lists**: Enumerations or predefined lists of values used for standardising data entries.
 
-Note: The metadata file is versioned, and the latest version is stored in the S3 bucket with a name like `metadata_v1-0-0.csv`. When a new version of the metadata is available, it will be stored with an incremented version number (e.g., `metadata_v1-0-1.csv`).
+Each section contains the following fields:
+- `name`: The name of the field.
+- `description`: A brief description of the field's content.
+- `type`: The data type of the field (e.g., Text, Date, Float).
+- `code_values` (for code lists only): Predefined values for the field.
+
+### Example Structure
+The metadata file includes a dataset description, source URL, and version number:
+```json
+{
+  "metadata": {
+    "description": "This dataset contains observations from iNaturalist, including details such as the date and location of the observation, the user who made the observation, and the taxon observed.",
+    "source_url": "https://www.inaturalist.org/",
+    "version": "1.0",
+    "attributes": [
+      {
+        "name": "id",
+        "description": "Unique iNaturalist identifier for the observation",
+        "type": "Text"
+      },
+      {
+        "name": "user_login",
+        "description": "Username of the user who made the observation on iNaturalist",
+        "type": "Text"
+      },
+      ...
+    ],
+    "dimensions": [
+      {
+        "name": "observed_on",
+        "description": "Date of the observation",
+        "type": "Date"
+      },
+      ...
+    ],
+    "code_lists": [
+      {
+        "name": "native",
+        "description": "Whether the observed taxon is native to the location",
+        "type": "Boolean",
+        "code_values": ["True", "False"]
+      }
+    ]
+  }
+}
+```
+
+### Versioning
+The metadata file is versioned to track changes. The version number follows the format `vX-Y-Z`, where:
+- `X` (major version): Incremented for changes to a dimension or major changes to the metadata.
+- `Y` (minor version): Incremented for changes to an attribute.
+- `Z` (patch version): Incremented for changes to a code list.
+
+The latest version of the metadata file is stored in the S3 bucket with a name like `metadata_vX-Y-Z.json`. When a new version of the metadata is available, it will be stored with the appropriate incremented version number.
+
+### S3 Bucket URI
+The metadata bucket URI is:
+```
+s3://data472-jkn35-metadata-fungi-observations/metadata/
+```
+
+### Uploading a New Metadata File
+To upload a new metadata file to the S3 bucket, you can use the following bash script:
+
+```bash
+#!/bin/bash
+
+# Variables
+BUCKET_URI="s3://data472-jkn35-metadata-fungi-observations/metadata/"
+METADATA_FILE="metadata.json"
+VERSION="vX-Y-Z" # Update this to the new version number
+
+# Upload the metadata file
+aws s3 cp $METADATA_FILE ${BUCKET_URI}metadata_${VERSION}.json
+
+# Verify the upload
+if [ $? -eq 0 ]; then
+  echo "Metadata file uploaded successfully."
+else
+  echo "Error uploading metadata file."
+fi
+```
+
+Make sure you have the AWS CLI installed and configured with the appropriate credentials and permissions to access the S3 bucket. Adjust the `VERSION` variable to reflect the new version number of your metadata file based on the changes made.
+
 
 ## Observation Data
 The observation data CSV file contains the following columns:

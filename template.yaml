@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  data472-jkn35-fungi-observations:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.12
+      CodeUri: 
+      Description: "Lambda function for data472-jkn35-fungi-observations"
+      MemorySize: 1024
+      Timeout: 60
+      Layers:
+        - arn:aws:lambda:ap-southeast-2:336392948345:layer:AWSSDKPandas-Python312:8
+      Environment:
+        Variables:
+          ENV_VAR: "value"  # Add any environment variables if needed
