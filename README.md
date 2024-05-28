@@ -8,9 +8,7 @@ I also attempted to deploy this application using AWS App Runner. However, simil
 
 ## Overview
 
-This project is an AWS Lambda function running at [https://ap-southeast-2.console.aws.amazon.com/lambda/home?region=ap-southeast-2#/functions/data472-jkn35-fungi-observations].
-
-It integrates with the iNaturalist API to retrieve observation data for fungi species in the Christchurch, New Zealand region. The function provides two endpoints:
+This project is an AWS Lambda function. It integrates with the iNaturalist API to retrieve observation data for fungi species in the Christchurch, New Zealand region. The function provides two endpoints:
 
 * /metadata: Returns a CSV file containing metadata about the available observation data, such as the columns and their descriptions.
 * /data: Returns a CSV file containing the actual observation data for a specified date range.
@@ -20,9 +18,9 @@ It integrates with the iNaturalist API to retrieve observation data for fungi sp
 - AWS S3 bucket for storing metadata files and the Lambda function code
 
 ## Setup
-1. Create an AWS Lambda function with the provided Python code (`fungi-function.py` or `fungi-function.zip`).
+1. Create an AWS Lambda function with the provided Python code (`fungi-function.py` and `requirements.txt`).
 2. Set the required environment variables:
-   - `API_KEY`: Your iNaturalist API key (used for authentication).
+   - `API_KEY`: The API key to access this Lambda (not the iNaturalist API - that has no key).
    - `BUCKET_NAME`: The name of your S3 bucket where metadata files will be stored.
 3. Ensure that the Lambda function has the necessary permissions to access the S3 bucket.
 
@@ -31,13 +29,14 @@ To create the Lambda function, use the following AWS CLI command:
 
 ```bash
 aws lambda create-function \
---function-name data472-jkn35-fungi-observations \
+--function-name **your-function-name** \
 --runtime python3.12 \
---role arn:aws:iam::454456403374:role/DATA472-Lambda \
+--role **your-iam-role-arn** \
 --handler lambda_function.lambda_handler \
---code S3Bucket=data472-jkn35-metadata-fungi-observations,S3Key=lambda/fungi-function.zip \
+--code S3Bucket=**your-s3-bucket**,S3Key=lambda/fungi-function.zip \
 --description "" \
 --timeout 60 \
+--environment Variables="{API_KEY=**your_api_key** S3_BUCKET_NAME=**s3-bucket-name**}"
 --memory-size 1024 \
 --tracing-config Mode=PassThrough \
 --layers arn:aws:lambda:ap-southeast-2:336392948345:layer:AWSSDKPandas-Python312:8 \
@@ -45,7 +44,7 @@ aws lambda create-function \
 --ephemeral-storage Size=512
 ```
 
-Note: Make sure to replace the function-name with the appropriate name, S3Bucket and S3Key with the corresponding names and `arn:aws:iam::454456403374:role/DATA472-Lambda` with the appropriate IAM role ARN for your Lambda function.
+Note: Make sure to replace the any fields marked with ** asterisks ** with the appropriate names.
 
 ### Updating the Lambda Function Code
 If you need to update the Lambda function code, follow these steps:
@@ -60,16 +59,16 @@ If you need to update the Lambda function code, follow these steps:
 3. Upload the updated ZIP file to your S3 bucket:
 
    ```bash
-   aws s3 cp fungi-function.zip s3://data472-jkn35-metadata-fungi-observations/lambda/
+   aws s3 cp fungi-function.zip **your-s3bucket**/lambda/
    ```
 
 4. Update the Lambda function code with the new ZIP file from S3:
 
    ```bash
-   aws lambda update-function-code --function-name data472-jkn35-fungi-observations --s3-bucket data472-jkn35-metadata-fungi-observations --s3-key lambda/fungi-function.zip
+   aws lambda update-function-code --function-name **your-func-name** --s3-bucket **your-bucket-name** --s3-key lambda/fungi-function.zip
    ```
 
-   Note: Make sure to have the necessary AWS credentials and permissions to perform these operations.
+   Note: Make sure to have the necessary AWS credentials and permissions to perform these operations and replace the fields with the correct names.
 
 ## Usage
 ### Metadata Endpoint
@@ -97,10 +96,10 @@ The `api-test-calls` folder contains JSON files that can be used to test the Lam
 For example, to test the Lambda function with the `input_startNoEndDates_validAPIKey.json` file, you can use the following AWS CLI command:
 
 ```bash
-aws lambda invoke --function-name data472-jkn35-fungi-observations --payload file://api-test-calls/input_startNoEndDates_validAPIKey.json output.txt
+aws lambda invoke --function-name **your-func-name** --payload file://api-test-calls/input_startNoEndDates_validAPIKey.json output.txt
 ```
 
-This command will invoke the Lambda function with the provided payload and store the output in the `output.txt` file.
+This command will invoke the Lambda function with the provided payload and store the output in an `output.txt` file.
 
 ## Implementation Details
 ### Metadata Endpoint
@@ -115,8 +114,6 @@ This command will invoke the Lambda function with the provided payload and store
 3. The function sends a request to the iNaturalist API to retrieve observation data for fungi species in the Christchurch, New Zealand region within the specified date range.
 4. The response data from the API is processed and converted into a Pandas DataFrame.
 5. The DataFrame is returned as a CSV file in the response.
-
-Certainly! Here is the updated README section with the new information about the metadata:
 
 ## Metadata
 The metadata JSON file contains detailed information about the columns in the observation data CSV file. The metadata is divided into three main sections: attributes, dimensions, and code lists.
@@ -180,12 +177,6 @@ The metadata file is versioned to track changes. The version number follows the 
 
 The latest version of the metadata file is stored in the S3 bucket with a name like `metadata_vX-Y-Z.json`. When a new version of the metadata is available, it will be stored with the appropriate incremented version number.
 
-### S3 Bucket URI
-The metadata bucket URI is:
-```
-s3://data472-jkn35-metadata-fungi-observations/metadata/
-```
-
 ### Uploading a New Metadata File
 To upload a new metadata file to the S3 bucket, you can use the following bash script:
 
@@ -193,7 +184,7 @@ To upload a new metadata file to the S3 bucket, you can use the following bash s
 #!/bin/bash
 
 # Variables
-BUCKET_URI="s3://data472-jkn35-metadata-fungi-observations/metadata/"
+BUCKET_URI=**your-s3-bucket-uri**
 METADATA_FILE="metadata.json"
 VERSION="vX-Y-Z" # Update this to the new version number
 
@@ -233,7 +224,25 @@ The Lambda function includes error handling for various scenarios:
 - If the date parameters are in an invalid format or the end date is before the start date, a 400 Bad Request response is returned.
 - If an error occurs while retrieving data from the S3 bucket or the iNaturalist API, a 500 Internal Server Error response is returned with the error message.
 
+## Logging Configuration
+
+The logging setup uses Python's logging library to establish a logger. A file handler is configured to write logs to a temporary file (/tmp/execution_log.log), a necessity for AWS Lambda which only permits writing to the /tmp directory.
+
+### Logging Events and Errors
+
+Throughout the function, key events and potential errors are logged using various log levels:
+
+- **INFO:** Logs general information regarding the function's execution, such as start, endpoints accessed, and successful operations.
+- **WARNING:** Records warnings, like unauthorised access attempts.
+- **ERROR:** Captures error messages, including invalid inputs or failures to retrieve data.
+- **EXCEPTION:** Documents stack traces in case of exceptions, facilitating detailed debugging.
+
+### Storing Logs in S3
+
+Upon completion of the function, the log file is uploaded to an S3 bucket. Logs are stored in the specified S3 bucket. This approach ensures each execution's logs are appended to the existing log file, maintaining a log history.
+
+
 ## Future Improvements
-- Provide static address to host lambda with API Gateway or similar.
-- Enhance error handling and logging for better monitoring and debugging.
-- Implement automated deployment and testing processes.
+- Provide static address to host lambda function.
+- Improve the error handling and logging for better monitoring and debugging.
+- Implement automated deployment and testing.
